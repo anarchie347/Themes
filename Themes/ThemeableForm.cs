@@ -97,7 +97,7 @@ namespace Anarchie.Themes
                 if (newColorFunc == null)
                     throw new Exception(string.Format($"No color found for the new color of the control. Either the current theme is not set, or it does not contain a color for {ctrlThemedProperties[i].Name}"));
                 newColor = newColorFunc.Invoke();
-                propertyToSet = ctrlType.InvokeMember(ctrlThemedProperties[i].Name + "PropertyToEdit", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static, null, null, null);
+                propertyToSet = ctrlType.InvokeMember(ctrlThemedProperties[i].Name + "PropertyToEdit", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy, null, null, null);
                 if (propertyToSet == null)
                     throw new Exception(string.Format($"No property of name {ctrlThemedProperties[i].Name}PropertyToEdit found in class {ctrlType}"));
                 propertyToSet.DynamicInvoke(ctrl, newColor);
