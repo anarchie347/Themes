@@ -22,6 +22,10 @@ namespace Anarchie.Themes
         /// </summary>
         public Color SecondaryColor { get; init; } = Color.White;
 
+        /// <summary>
+        /// The <see cref="Color"/> for the background of the <see cref="ThemeableForm{ThemeType}"/>
+        /// </summary>
+        public Color FormBackColor { get; init; } = Color.White;
 
     }
 }

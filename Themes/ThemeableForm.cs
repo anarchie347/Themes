@@ -89,6 +89,7 @@ namespace Anarchie.Themes
 
                 }
             }
+            base.BackColor = this.currentTheme.FormBackColor;
 
 
         }

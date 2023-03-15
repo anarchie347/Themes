@@ -11,7 +11,7 @@ namespace Anarchie.Themes
     /// An implementation of <see cref="IThemeableControl"/> for <see cref="Label"/> controls
     /// </summary>
     [System.ComponentModel.DesignerCategory("Code")]
-    internal class ThemeableLabel : Label, IThemeableControl
+    public class ThemeableLabel : Label, IThemeableControl
     {
         /// <summary>
         /// Defines what property should be set by the <see cref="ThemeForeColor"/>
