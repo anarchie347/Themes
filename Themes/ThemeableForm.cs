@@ -30,6 +30,7 @@ namespace Anarchie.Themes
         {
             //Set the default theme
             currentTheme = defaultTheme;
+            base.ControlAdded += NewControlAdded;
         }
 
         private ThemeType currentTheme;
@@ -58,10 +59,10 @@ namespace Anarchie.Themes
         /// Updates all themeables on a form. Is run automatically when the theme changes
         /// </summary>
         public void UpdateThemeables()
-        { 
+        {
             //MAKE THIS WORK FOR ALL IThemeableControl, including ones not created in this assembly
             //ThemeableButton control;
-            List <IThemeableControl>  allChildren= GetAllChildControls(this);
+            List<IThemeableControl> allChildren = GetAllChildControls(this);
             Type ctrlType;
             PropertyInfo[] ctrlThemedProperties;
             Func<Color>? newColorFunc;
@@ -69,29 +70,40 @@ namespace Anarchie.Themes
             dynamic? propertyToSet;
             foreach (IThemeableControl ctrl in allChildren)
             {
-                ctrlType = ctrl.GetType();
-                ctrlThemedProperties = ctrlType.GetProperties().Where(p => p.Name.StartsWith("Theme") && !p.Name.EndsWith("PropertyToEdit")).ToArray();
-                if (ctrlThemedProperties == null)
-                    continue;
-                for (int i = 0; i < ctrlThemedProperties.Length; i++)
-                {
-                    if (ctrlThemedProperties[i] == null)
-                        throw new Exception();
-                    newColorFunc = (Func<Color>?)ctrlThemedProperties[i].GetValue(ctrl);
-                    if (newColorFunc == null)
-                        throw new Exception(string.Format($"No color found for the new color of the control. Either the current theme is not set, or it does not contain a color for {ctrlThemedProperties[i].Name}"));
-                    newColor = newColorFunc.Invoke();
-                    propertyToSet = ctrlType.InvokeMember(ctrlThemedProperties[i].Name + "PropertyToEdit", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static, null, null, null);
-                    if (propertyToSet == null)
-                        throw new Exception(string.Format($"No property of name {ctrlThemedProperties[i].Name}PropertyToEdit found in class {ctrlType}"));
-                    propertyToSet.DynamicInvoke(ctrl, newColor);
-                    
-
-                }
+                UpdateSingleThemeable(ctrl);
             }
             base.BackColor = this.currentTheme.FormBackColor;
 
 
+        }
+
+        private void UpdateSingleThemeable(IThemeableControl ctrl)
+        {
+            Type ctrlType;
+            PropertyInfo[] ctrlThemedProperties;
+            Func<Color>? newColorFunc;
+            Color newColor;
+            dynamic? propertyToSet;
+
+            ctrlType = ctrl.GetType();
+            ctrlThemedProperties = ctrlType.GetProperties().Where(p => p.Name.StartsWith("Theme") && !p.Name.EndsWith("PropertyToEdit")).ToArray();
+            if (ctrlThemedProperties == null)
+                return;
+            for (int i = 0; i < ctrlThemedProperties.Length; i++)
+            {
+                if (ctrlThemedProperties[i] == null)
+                    throw new Exception();
+                newColorFunc = (Func<Color>?)ctrlThemedProperties[i].GetValue(ctrl);
+                if (newColorFunc == null)
+                    throw new Exception(string.Format($"No color found for the new color of the control. Either the current theme is not set, or it does not contain a color for {ctrlThemedProperties[i].Name}"));
+                newColor = newColorFunc.Invoke();
+                propertyToSet = ctrlType.InvokeMember(ctrlThemedProperties[i].Name + "PropertyToEdit", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static, null, null, null);
+                if (propertyToSet == null)
+                    throw new Exception(string.Format($"No property of name {ctrlThemedProperties[i].Name}PropertyToEdit found in class {ctrlType}"));
+                propertyToSet.DynamicInvoke(ctrl, newColor);
+
+
+            }
         }
 
         private List<IThemeableControl> GetAllChildControls(Control control)
@@ -109,6 +121,11 @@ namespace Anarchie.Themes
 
             return childControls;
         }
-        
+
+        private void NewControlAdded(object? sender, ControlEventArgs e)
+        {
+            if (e.Control is IThemeableControl)
+                UpdateSingleThemeable((IThemeableControl)e.Control);
+        }
     }
 }
