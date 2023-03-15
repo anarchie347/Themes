@@ -31,6 +31,7 @@ namespace Anarchie.Themes
             //Set the default theme
             currentTheme = defaultTheme;
             base.ControlAdded += NewControlAdded;
+            base.BackColor = currentTheme.FormBackColor;
         }
 
         private ThemeType currentTheme;
