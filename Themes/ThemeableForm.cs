@@ -63,11 +63,6 @@ namespace Anarchie.Themes
             //MAKE THIS WORK FOR ALL IThemeableControl, including ones not created in this assembly
             //ThemeableButton control;
             List<IThemeableControl> allChildren = GetAllChildControls(this);
-            Type ctrlType;
-            PropertyInfo[] ctrlThemedProperties;
-            Func<Color>? newColorFunc;
-            Color newColor;
-            dynamic? propertyToSet;
             foreach (IThemeableControl ctrl in allChildren)
             {
                 UpdateSingleThemeable(ctrl);
