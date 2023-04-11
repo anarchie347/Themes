@@ -32,6 +32,7 @@ namespace Anarchie.Themes
             currentTheme = defaultTheme;
             base.ControlAdded += NewControlAdded;
             base.BackColor = currentTheme.FormBackColor;
+            base.BackgroundImage = currentTheme.FormBackgroundImage;
         }
 
         private ThemeType currentTheme;
@@ -69,7 +70,7 @@ namespace Anarchie.Themes
                 UpdateSingleThemeable(ctrl);
             }
             base.BackColor = this.currentTheme.FormBackColor;
-
+            base.BackgroundImage = this.currentTheme.FormBackgroundImage;
 
         }
 
@@ -77,17 +78,30 @@ namespace Anarchie.Themes
         {
             Type ctrlType;
             PropertyInfo[] ctrlThemedProperties;
-            Func<Color>? newColorFunc;
-            Color newColor;
-            dynamic? propertyToSet;
+            PropertyInfo[] editingProperty;
+            Type typeOfEditingProperty;
+            Type typeOfThemeProperty;
+            
 
             ctrlType = ctrl.GetType();
             ctrlThemedProperties = ctrlType.GetProperties().Where(p => p.Name.StartsWith("Theme") && !p.Name.EndsWith("PropertyToEdit")).ToArray();
             if (ctrlThemedProperties == null)
                 return;
+
+
+
+            Func<Color>? newColorFunc;
+            Color newColor;
+            dynamic? propertyToSet;
+
             for (int i = 0; i < ctrlThemedProperties.Length; i++)
             {
-                if (ctrlThemedProperties[i] == null)
+                typeOfThemeProperty = ctrlThemedProperties[i].PropertyType;
+                typeOfEditingProperty = ctrlType.GetProperty(ctrlThemedProperties[i].Name + "PropertyToEdit").PropertyType;
+                if (typeOfEditingProperty == null)
+                    throw new Exception
+                
+                    if (ctrlThemedProperties[i] == null)
                     throw new Exception();
                 newColorFunc = (Func<Color>?)ctrlThemedProperties[i].GetValue(ctrl);
                 if (newColorFunc == null)

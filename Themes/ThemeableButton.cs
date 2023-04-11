@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using System.CodeDom;
+using System.Diagnostics;
 
 namespace Anarchie.Themes
 {
@@ -72,6 +73,24 @@ namespace Anarchie.Themes
                 themeBorderColor = value;
                 if (base.FlatStyle == FlatStyle.Flat)
                     base.FlatAppearance.BorderColor = themeBorderColor();
+            }
+        }
+
+        /// <summary>
+        /// Defines what property should be set by the <see cref="ThemeImage"/>
+        /// </summary>
+        public static Action<ThemeableButton, Image> ThemeImagePropertyToEdit { get { return (ctrl, value) => ctrl.BackgroundImage = value; } }
+        private Func<Image?> themeImage = () => null;
+        /// <summary>
+        /// The image that should be used for the BackgroundImage property of the <see cref="ThemeableButton"/><br/>
+        /// </summary>
+        public Func<Image?> ThemeImage
+        {
+            get { return themeImage; }
+            set
+            {
+                themeImage = value;
+                base.Image = themeImage();
             }
         }
     }

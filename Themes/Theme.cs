@@ -27,5 +27,10 @@ namespace Anarchie.Themes
         /// </summary>
         public Color FormBackColor { get; init; } = Color.White;
 
+        /// <summary>
+        /// The <see cref="Image"/> for the background of the <see cref="ThemeableForm{ThemeType}"/>>
+        /// </summary>
+        public Image? FormBackgroundImage { get; init; } = null;
+
     }
 }
