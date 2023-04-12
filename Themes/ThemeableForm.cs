@@ -106,7 +106,7 @@ namespace Anarchie.Themes
 
             ValidateTypesOfThemeableProperties(themeProperty, editingProperty, ctrl);
 
-
+			delegate 
 
 		}
 
@@ -126,8 +126,6 @@ namespace Anarchie.Themes
 
 			if (themePropertyReturnType != editingPropertyValueType)
 				throw new Exception($"In class {ctrlType}, {themeProperty} returns type {themePropertyReturnType}, but {editingProperty} accepts a value of type {editingPropertyValueType}");
-
-			return true;
 
 		}
 
