@@ -79,7 +79,7 @@ namespace Anarchie.Themes
         /// <summary>
         /// Defines what property should be set by the <see cref="ThemeImage"/>
         /// </summary>
-        public static Action<ThemeableButton, Image> ThemeImagePropertyToEdit { get { return (ctrl, value) => ctrl.BackgroundImage = value; } }
+        public static Action<ThemeableButton, Image?> ThemeImagePropertyToEdit { get { return (ctrl, value) => ctrl.BackgroundImage = value; } }
         private Func<Image?> themeImage = () => null;
         /// <summary>
         /// The image that should be used for the BackgroundImage property of the <see cref="ThemeableButton"/><br/>
