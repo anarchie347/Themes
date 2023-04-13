@@ -67,7 +67,7 @@ namespace Anarchie.Themes
 			List<IThemeableControl> allChildren = GetAllChildControls(this);
 			foreach (IThemeableControl ctrl in allChildren)
 			{
-				UpdateSingleThemeable(ctrl);
+				NewUpdateSingleThemeable(ctrl);
 			}
 			base.BackColor = this.currentTheme.FormBackColor;
 			base.BackgroundImage = this.currentTheme.FormBackgroundImage;
@@ -88,25 +88,44 @@ namespace Anarchie.Themes
 			ReorderPropertyInfoArrays(ref ctrlThemeProperties, ref ctrlEditingProperties, ctrlType);
 
 			for (int i = 0; i < ctrlThemeProperties.Length; i++) {
-
+				UpdateSingleProperty(ctrlThemeProperties[i], ctrlEditingProperties[i], ctrl);
 			}
 
 			
 		}
 		private static void UpdateSingleProperty(PropertyInfo themeProperty, PropertyInfo editingProperty, IThemeableControl ctrl)
 		{
-            Type themePropertyType = themeProperty.PropertyType;
-            Type editingPropertyType = editingProperty.PropertyType;
+            //Type themePropertyType = themeProperty.PropertyType;
+            //Type editingPropertyType = editingProperty.PropertyType;
             Type ctrlType = ctrl.GetType();
 
             //types required and provided by the theme and editing properties
-            Type themePropertyReturnType = themePropertyType.GetGenericArguments()[0];
-            Type editingPropertyThemeableType = editingPropertyType.GetGenericArguments()[0];
-            Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
+            //Type themePropertyReturnType = themePropertyType.GetGenericArguments()[0];
+            //Type editingPropertyThemeableType = editingPropertyType.GetGenericArguments()[0];
+            //Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
 
             ValidateTypesOfThemeableProperties(themeProperty, editingProperty, ctrl);
 
-			delegate 
+			dynamic? newValueFunc;
+			object? newValue;
+			dynamic? baseControlEditSetMethod;
+
+			newValueFunc = themeProperty.GetValue(ctrl);
+			if (newValueFunc == null)
+				return;
+			newValue = newValueFunc.Invoke();
+
+			if (newValue == null)
+				throw new Exception($"{editingProperty.GetValue(ctrl)} returned null, so no value could be set for {themeProperty} in class {ctrlType}");
+
+			baseControlEditSetMethod = editingProperty.GetValue(ctrl);
+
+			if (baseControlEditSetMethod == null)
+			{
+				throw new Exception($"{editingProperty} was null, so {themeProperty} could not edit any property of the base control for class {ctrlType}");
+			}
+
+			baseControlEditSetMethod.DynamicInvoke(ctrl, newValue);
 
 		}
 
@@ -121,7 +140,7 @@ namespace Anarchie.Themes
             Type editingPropertyThemeableType = editingPropertyType.GetGenericArguments()[0];
             Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
 
-			if (typeof(IThemeableControl).IsAssignableFrom(editingPropertyThemeableType))
+			if (!typeof(IThemeableControl).IsAssignableFrom(editingPropertyThemeableType))
 				throw new Exception($"{editingProperty} in class {ctrlType} did not have a first parameter that inherits from IThemeableControl");
 
 			if (themePropertyReturnType != editingPropertyValueType)
@@ -133,7 +152,7 @@ namespace Anarchie.Themes
 		{
 			PropertyInfo temp;
 			int index;
-			for (int i = 0; i <= themeProperties.Length; i++) {
+			for (int i = 0; i < themeProperties.Length; i++) {
 				if (themeProperties[i].Name + "PropertyToEdit" == editingProperties[i].Name)
 					continue;
 
@@ -149,7 +168,7 @@ namespace Anarchie.Themes
 			}
 		}
 
-		private void UpdateSingleThemeable(IThemeableControl ctrl)
+		private void UpdateSingleThemeableOld(IThemeableControl ctrl)
 		{
 			Type ctrlType;
 			PropertyInfo[] ctrlThemedProperties;
@@ -173,8 +192,8 @@ namespace Anarchie.Themes
 			{
 				typeOfThemeProperty = ctrlThemedProperties[i].PropertyType;
 				typeOfEditingProperty = ctrlType.GetProperty(ctrlThemedProperties[i].Name + "PropertyToEdit").PropertyType;
-				if (typeOfEditingProperty == null)
-					throw new Exception
+				//if (typeOfEditingProperty == null)
+				//	throw new Exception
 				
 					if (ctrlThemedProperties[i] == null)
 					throw new Exception();
@@ -210,7 +229,7 @@ namespace Anarchie.Themes
 		private void NewControlAdded(object? sender, ControlEventArgs e)
 		{
 			if (e.Control is IThemeableControl)
-				UpdateSingleThemeable((IThemeableControl)e.Control);
+				NewUpdateSingleThemeable((IThemeableControl)e.Control);
 		}
 	}
 }
