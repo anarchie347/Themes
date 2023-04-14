@@ -9,6 +9,16 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <AssemblyName>Anarchie.Themes</AssemblyName>
     <RootNamespace>Anarchie.Themes</RootNamespace>
+    <Title>Themes</Title>
+    <Authors>anarchie347</Authors>
+    <Company />
+    <Product>Themes</Product>
+    <Description>Themeable controls for C# .NET windows forms applications</Description>
+    <PackageProjectUrl>https://github.com/anarchie347/Themes</PackageProjectUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="https:\github.com\anarchie347\Themes\blob\main\README.md" />
+  </ItemGroup>
 
 </Project>
