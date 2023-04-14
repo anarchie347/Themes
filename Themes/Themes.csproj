@@ -15,5 +15,18 @@
     <Product>Themes</Product>
     <Description>Themeable controls for C# .NET windows forms applications</Description>
     <PackageProjectUrl>https://github.com/anarchie347/Themes</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/anarchie347/Themes</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>C#; .NET; Windows Forms; WinForms; Theme; Themes</PackageTags>
+    <PackageReleaseNotes>Released Themes</PackageReleaseNotes>
+    <PackAsTool>True</PackAsTool>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>
