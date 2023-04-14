@@ -88,7 +88,7 @@ namespace Anarchie.Themes
 			for (int i = 0; i < ctrlThemeProperties.Length; i++)
 			{
 				
-				singleEditingProperty = ctrlType.GetProperty(ctrlThemeProperties[i].Name + "PropertyToEdit");
+				singleEditingProperty = ctrlType.GetProperty(ctrlThemeProperties[i].Name + "PropertyToEdit", BindingFlags.FlattenHierarchy | BindingFlags.Static | BindingFlags.Public);
 				if (singleEditingProperty == null)
 					throw new Exception($"Required method {ctrlThemeProperties[i].Name}PropertyToEdit was not found in class {ctrlType}");
 				ctrlEditingProperties[i] = singleEditingProperty;
