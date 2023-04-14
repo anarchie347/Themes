@@ -21,7 +21,8 @@
     <PackageTags>C#; .NET; Windows Forms; WinForms; Theme; Themes</PackageTags>
     <PackageReleaseNotes>Released Themes</PackageReleaseNotes>
     <PackAsTool>False</PackAsTool>
-    <Copyright>GNU General Public License</Copyright>
+    <Copyright></Copyright>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
