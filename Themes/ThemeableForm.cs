@@ -102,13 +102,9 @@ namespace Anarchie.Themes
 		}
 		private static void UpdateSingleProperty(PropertyInfo themeProperty, PropertyInfo editingProperty, IThemeableControl ctrl)
 		{
-            //Type themePropertyType = themeProperty.PropertyType;
             Type editingPropertyType = editingProperty.PropertyType;
             Type ctrlType = ctrl.GetType();
 
-            //types required and provided by the theme and editing properties
-            //Type themePropertyReturnType = themePropertyType.GetGenericArguments()[0];
-            //Type editingPropertyThemeableType = editingPropertyType.GetGenericArguments()[0];
             Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
 
             ValidateTypesOfThemeableProperties(themeProperty, editingProperty, ctrl);
@@ -156,68 +152,6 @@ namespace Anarchie.Themes
 			if (themePropertyReturnType != editingPropertyValueType)
 				throw new Exception($"In class {ctrlType}, {themeProperty} returns type {themePropertyReturnType}, but {editingProperty} accepts a value of type {editingPropertyValueType}");
 
-		}
-
-		private static void ReorderPropertyInfoArrays(ref PropertyInfo[] themeProperties, ref PropertyInfo[] editingProperties, Type ctrlType)
-		{
-			PropertyInfo temp;
-			int index;
-			for (int i = 0; i < themeProperties.Length; i++) {
-				if (themeProperties[i].Name + "PropertyToEdit" == editingProperties[i].Name)
-					continue;
-
-				if ((index = Array.IndexOf(editingProperties.Select(prop => prop.Name).ToArray(), themeProperties[i].Name + "PropertyToEdit")) == -1)
-					throw new Exception($"Required Property {themeProperties[i].Name}PropertyToEdit not found for {ctrlType}");
-
-				//Swap
-				temp = editingProperties[i];
-				editingProperties[i] = editingProperties[index];
-				editingProperties[index] = temp;
-
-
-			}
-		}
-
-		private void UpdateSingleThemeableOld(IThemeableControl ctrl)
-		{
-			Type ctrlType;
-			PropertyInfo[] ctrlThemedProperties;
-			PropertyInfo[] editingProperty;
-			Type typeOfEditingProperty;
-			Type typeOfThemeProperty;
-			
-
-			ctrlType = ctrl.GetType();
-			ctrlThemedProperties = ctrlType.GetProperties().Where(p => p.Name.StartsWith("Theme") && !p.Name.EndsWith("PropertyToEdit")).ToArray();
-			if (ctrlThemedProperties == null)
-				return;
-
-
-
-			Func<Color>? newColorFunc;
-			Color newColor;
-			dynamic? propertyToSet;
-
-			for (int i = 0; i < ctrlThemedProperties.Length; i++)
-			{
-				typeOfThemeProperty = ctrlThemedProperties[i].PropertyType;
-				typeOfEditingProperty = ctrlType.GetProperty(ctrlThemedProperties[i].Name + "PropertyToEdit").PropertyType;
-				//if (typeOfEditingProperty == null)
-				//	throw new Exception
-				
-					if (ctrlThemedProperties[i] == null)
-					throw new Exception();
-				newColorFunc = (Func<Color>?)ctrlThemedProperties[i].GetValue(ctrl);
-				if (newColorFunc == null)
-					throw new Exception(string.Format($"No color found for the new color of the control. Either the current theme is not set, or it does not contain a color for {ctrlThemedProperties[i].Name}"));
-				newColor = newColorFunc.Invoke();
-				propertyToSet = ctrlType.InvokeMember(ctrlThemedProperties[i].Name + "PropertyToEdit", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy, null, null, null);
-				if (propertyToSet == null)
-					throw new Exception(string.Format($"No property of name {ctrlThemedProperties[i].Name}PropertyToEdit found in class {ctrlType}"));
-				propertyToSet.DynamicInvoke(ctrl, newColor);
-
-
-			}
 		}
 
 		private List<IThemeableControl> GetAllChildControls(Control control)
