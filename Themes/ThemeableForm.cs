@@ -74,18 +74,25 @@ namespace Anarchie.Themes
 
 		}
 
-		private void NewUpdateSingleThemeable(IThemeableControl ctrl)
+		private static void NewUpdateSingleThemeable(IThemeableControl ctrl)
 		{
 			Type ctrlType;
 			PropertyInfo[] ctrlThemeProperties, ctrlEditingProperties;
 
 			ctrlType = ctrl.GetType();
+			//get theme properties
+			ctrlThemeProperties = ctrlType.GetProperties().Where(prop => prop.Name.StartsWith("Theme") && !prop.Name.EndsWith("PropertyToEdit")).ToArray();
+			ctrlEditingProperties = new PropertyInfo[ctrlThemeProperties.Length];
+			PropertyInfo? singleEditingProperty;
+			//have to get editing properties individually to make sure the arrays are in the same order
+			for (int i = 0; i < ctrlThemeProperties.Length; i++)
 			{
-				PropertyInfo[] allThemeRelatedProperties = ctrlType.GetProperties().Where(p => p.Name.StartsWith("Theme")).ToArray();
-				ctrlThemeProperties = allThemeRelatedProperties.Where(p => !p.Name.EndsWith("PropertyToEdit")).ToArray();
-				ctrlEditingProperties = allThemeRelatedProperties.Where(p => p.Name.EndsWith("PropertyToEdit")).ToArray();
-			}
-			ReorderPropertyInfoArrays(ref ctrlThemeProperties, ref ctrlEditingProperties, ctrlType);
+				
+				singleEditingProperty = ctrlType.GetProperty(ctrlThemeProperties[i].Name + "PropertyToEdit");
+				if (singleEditingProperty == null)
+					throw new Exception($"Required method {ctrlThemeProperties[i].Name}PropertyToEdit was not found in class {ctrlType}");
+				ctrlEditingProperties[i] = singleEditingProperty;
+            }
 
 			for (int i = 0; i < ctrlThemeProperties.Length; i++) {
 				UpdateSingleProperty(ctrlThemeProperties[i], ctrlEditingProperties[i], ctrl);
@@ -114,7 +121,6 @@ namespace Anarchie.Themes
 			if (newValueFunc == null)
 				return;
 			newValue = newValueFunc.Invoke();
-
 			if (newValue == null)
 				throw new Exception($"{editingProperty.GetValue(ctrl)} returned null, so no value could be set for {themeProperty} in class {ctrlType}");
 
