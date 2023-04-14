@@ -16,9 +16,4 @@
     <Description>Themeable controls for C# .NET windows forms applications</Description>
     <PackageProjectUrl>https://github.com/anarchie347/Themes</PackageProjectUrl>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="https:\github.com\anarchie347\Themes\blob\main\README.md" />
-  </ItemGroup>
-
 </Project>
