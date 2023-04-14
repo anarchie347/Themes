@@ -103,13 +103,13 @@ namespace Anarchie.Themes
 		private static void UpdateSingleProperty(PropertyInfo themeProperty, PropertyInfo editingProperty, IThemeableControl ctrl)
 		{
             //Type themePropertyType = themeProperty.PropertyType;
-            //Type editingPropertyType = editingProperty.PropertyType;
+            Type editingPropertyType = editingProperty.PropertyType;
             Type ctrlType = ctrl.GetType();
 
             //types required and provided by the theme and editing properties
             //Type themePropertyReturnType = themePropertyType.GetGenericArguments()[0];
             //Type editingPropertyThemeableType = editingPropertyType.GetGenericArguments()[0];
-            //Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
+            Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
 
             ValidateTypesOfThemeableProperties(themeProperty, editingProperty, ctrl);
 
@@ -117,12 +117,16 @@ namespace Anarchie.Themes
 			object? newValue;
 			dynamic? baseControlEditSetMethod;
 
+			
+
 			newValueFunc = themeProperty.GetValue(ctrl);
 			if (newValueFunc == null)
 				return;
 			newValue = newValueFunc.Invoke();
-			if (newValue == null)
-				throw new Exception($"{editingProperty.GetValue(ctrl)} returned null, so no value could be set for {themeProperty} in class {ctrlType}");
+			//if newValue == null and edtingPropertyValueType is not nullable
+			//shouldnt ever run because there would be a compiler end in the project using this library, but im leaving it in anyway just in case
+			if (newValue == null && Nullable.GetUnderlyingType(editingPropertyValueType) == null)
+				throw new Exception($"{newValueFunc} returned null, so no value could be set for {themeProperty} in class {ctrlType} because {editingPropertyValueType} is not nullable");
 
 			baseControlEditSetMethod = editingProperty.GetValue(ctrl);
 

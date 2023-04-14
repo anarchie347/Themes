@@ -17,18 +17,19 @@ namespace Anarchie.Themes
         /// <summary>
         /// Defines what property should be set by the <see cref="ThemeForeColor"/>
         /// </summary>
-        public static Action<ThemeableTextBox, Color> ThemeForeColorPropertyToEdit { get { return (ctrl, value) => ctrl.ForeColor = value; } }
-        private Func<Color> themeForeColor = () => Color.White;
+        public static Action<ThemeableTextBox, Color>? ThemeForeColorPropertyToEdit { get { return (ctrl, value) => ctrl.ForeColor = value; } }
+        private Func<Color>? themeForeColor = null;
         /// <summary>
         /// The theme color that should be used for the ForeColor property of the <see cref="ThemeableTextBox"/>
         /// </summary>
-        public Func<Color> ThemeForeColor
+        public Func<Color>? ThemeForeColor
         {
             get { return themeForeColor; }
             set
             {
                 themeForeColor = value;
-                base.ForeColor = themeForeColor();
+                if (themeForeColor != null)
+                    base.ForeColor = themeForeColor();
             }
 
         }
@@ -36,18 +37,19 @@ namespace Anarchie.Themes
         /// <summary>
         /// Defines what property should be set by the <see cref="ThemeBackColor"/>
         /// </summary>
-        public static Action<ThemeableTextBox, Color> ThemeBackColorPropertyToEdit { get { return (ctrl, value) => ctrl.BackColor = value; } }
-        private Func<Color> themeBackColor = () => Color.White;
+        public static Action<ThemeableTextBox, Color>? ThemeBackColorPropertyToEdit { get { return (ctrl, value) => ctrl.BackColor = value; } }
+        private Func<Color>? themeBackColor = null;
         /// <summary>
         /// The theme color that should be used for the BackColor property of the <see cref="ThemeableTextBox"/>
         /// </summary>
-        public Func<Color> ThemeBackColor
+        public Func<Color>? ThemeBackColor
         {
             get { return themeBackColor; }
             set
             {
                 themeBackColor = value;
-                base.BackColor = themeBackColor();
+                if (themeBackColor != null)
+                    base.BackColor = themeBackColor();
             }
         }
     }

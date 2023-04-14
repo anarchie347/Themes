@@ -20,7 +20,7 @@ namespace Anarchie.Themes
         /// <summary>
         /// The theme color that should be used for the ForeColor property of a <see cref="Control"/>
         /// </summary>
-        Func<Color> ThemeForeColor { get; set; }
+        Func<Color>? ThemeForeColor { get; set; }
 
         /// <summary>
         /// Defines what property should be set by the <see cref="ThemeBackColor"/>
@@ -29,7 +29,7 @@ namespace Anarchie.Themes
         /// <summary>
         /// The theme color that should be used for the BackColor property of a <see cref="Control"/>
         /// </summary>
-        Func<Color> ThemeBackColor { get; set; }
+        Func<Color>? ThemeBackColor { get; set; }
 
     }
 }
