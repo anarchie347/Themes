@@ -119,11 +119,9 @@ namespace Anarchie.Themes
 			if (newValueFunc == null)
 				return;
 			newValue = newValueFunc.Invoke();
-			//if newValue == null and edtingPropertyValueType is not nullable
-			//shouldnt ever run because there would be a compiler end in the project using this library, but im leaving it in anyway just in case
-			if (newValue == null && Nullable.GetUnderlyingType(editingPropertyValueType) == null)
-				throw new Exception($"{newValueFunc} returned null, so no value could be set for {themeProperty} in class {ctrlType} because {editingPropertyValueType} is not nullable");
-
+			if (newValue == null)
+				//throw new Exception($"{newValueFunc} returned null, so no value could be set for {themeProperty} in class {ctrlType} because {editingPropertyValueType} is not nullable");
+				return;
 			baseControlEditSetMethod = editingProperty.GetValue(ctrl);
 
 			if (baseControlEditSetMethod == null)
