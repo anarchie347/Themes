@@ -102,34 +102,39 @@ namespace Anarchie.Themes
 		}
 		private static void UpdateSingleProperty(PropertyInfo themeProperty, PropertyInfo editingProperty, IThemeableControl ctrl)
 		{
-            Type editingPropertyType = editingProperty.PropertyType;
-            Type ctrlType = ctrl.GetType();
+			Type editingPropertyType = editingProperty.PropertyType;
+			Type ctrlType = ctrl.GetType();
 
-            Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
+			Type editingPropertyValueType = editingPropertyType.GetGenericArguments()[1];
 
-            ValidateTypesOfThemeableProperties(themeProperty, editingProperty, ctrl);
+			ValidateTypesOfThemeableProperties(themeProperty, editingProperty, ctrl);
 
 			dynamic? newValueFunc;
 			object? newValue;
 			dynamic? baseControlEditSetMethod;
 
-			
+
 
 			newValueFunc = themeProperty.GetValue(ctrl);
 			if (newValueFunc == null)
 				return;
 			newValue = newValueFunc.Invoke();
-			if (newValue == null)
-				//throw new Exception($"{newValueFunc} returned null, so no value could be set for {themeProperty} in class {ctrlType} because {editingPropertyValueType} is not nullable");
-				return;
-			baseControlEditSetMethod = editingProperty.GetValue(ctrl);
+
+
+			baseControlEditSetMethod = editingProperty.GetValue(null);
 
 			if (baseControlEditSetMethod == null)
 			{
 				throw new Exception($"{editingProperty} was null, so {themeProperty} could not edit any property of the base control for class {ctrlType}");
 			}
 
-			baseControlEditSetMethod.DynamicInvoke(ctrl, newValue);
+			try
+			{
+				baseControlEditSetMethod.DynamicInvoke(ctrl, newValue);
+			} catch
+			{
+				throw new Exception($"Could not set {baseControlEditSetMethod} to the the value returned by {newValueFunc} because it returned {newValue}");
+			}
 
 		}
 

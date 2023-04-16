@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <VersionPrefix>1.0.0.2</VersionPrefix>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -19,7 +20,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>C#; .NET; Windows Forms; WinForms; Theme; Themes</PackageTags>
-    <PackageReleaseNotes>Released Themes</PackageReleaseNotes>
+    <PackageReleaseNotes>Allowed for setting the base property to null</PackageReleaseNotes>
     <PackAsTool>False</PackAsTool>
     <Copyright></Copyright>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
