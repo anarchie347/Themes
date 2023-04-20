@@ -103,7 +103,7 @@ namespace Anarchie.Themes
 			}
 
 			for (int i = 0; i < ctrlThemeProperties.Length; i++) {
-				UpdateSingleProperty(ctrlThemeProperties[i], ctrlEditingProperties[i], ctrl);
+                UpdateSingleProperty(ctrlThemeProperties[i], ctrlEditingProperties[i], ctrl);
 			}
 
 			
@@ -191,9 +191,8 @@ namespace Anarchie.Themes
 			if (themePropertyReturnType != editingPropertyValueType)
 				throw new Exception($"{themeProperty} in class {ctrlType} returns type {themePropertyReturnType}, but {editingProperty} accepts a value of type {editingPropertyValueType}");
 
-			if (!(editingPropertyThemeableType == ctrl.GetType()))
-				throw new Exception($"The first generic arguement for {themePropertyType} did not correspond to the type of the class which was {ctrlType}");
-
+			if (!(editingPropertyThemeableType == ctrlType))
+				throw new Exception($"The first generic arguement for {editingProperty.Name} was {editingPropertyThemeableType} whcih did not correspond to the type of the class which was {ctrlType}");
 
 		}
 
