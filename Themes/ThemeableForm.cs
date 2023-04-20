@@ -137,7 +137,7 @@ namespace Anarchie.Themes
 			}
 
 			try
-			{
+			{ 
 				baseControlEditSetMethod.DynamicInvoke(ctrl, newValue);
 			} catch
 			{
@@ -189,7 +189,11 @@ namespace Anarchie.Themes
 				throw new Exception($"{editingProperty} in class {ctrlType} did not have a first parameter that inherits from IThemeableControl");
 
 			if (themePropertyReturnType != editingPropertyValueType)
-				throw new Exception($"In class {ctrlType}, {themeProperty} returns type {themePropertyReturnType}, but {editingProperty} accepts a value of type {editingPropertyValueType}");
+				throw new Exception($"{themeProperty} in class {ctrlType} returns type {themePropertyReturnType}, but {editingProperty} accepts a value of type {editingPropertyValueType}");
+
+			if (!(editingPropertyThemeableType == ctrl.GetType()))
+				throw new Exception($"The first generic arguement for {themePropertyType} did not correspond to the type of the class which was {ctrlType}");
+
 
 		}
 
