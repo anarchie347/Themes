@@ -23,6 +23,11 @@ namespace Anarchie.Themes
 	public class ThemeableForm<ThemeType> : Form where ThemeType : Theme
 	{
 		/// <summary>
+		/// Called when <see cref="CurrentTheme"/> is changed
+		/// </summary>
+		public event EventHandler ThemeChanged;
+
+		/// <summary>
 		/// Initilialises the form and sets the default <see cref="Theme"/>
 		/// </summary>
 		/// <param name="defaultTheme">Initial theme for the form</param>
@@ -33,6 +38,8 @@ namespace Anarchie.Themes
 			base.ControlAdded += NewControlAdded;
 			base.BackColor = currentTheme.FormBackColor;
 			base.BackgroundImage = currentTheme.FormBackgroundImage;
+
+			ThemeChanged = delegate { };
 		}
 
 		private ThemeType currentTheme;
@@ -48,6 +55,7 @@ namespace Anarchie.Themes
 					return;
 				currentTheme = value;
 				UpdateThemeables();
+				ThemeChanged?.Invoke(this, EventArgs.Empty);
 			}
 		}
 
