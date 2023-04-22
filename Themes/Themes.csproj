@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <VersionPrefix>1.0.0.2</VersionPrefix>
+    <VersionPrefix>1.1.0</VersionPrefix>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -20,13 +20,20 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>C#; .NET; Windows Forms; WinForms; Theme; Themes</PackageTags>
-    <PackageReleaseNotes>Allowed for setting the base property to null</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed bugs, added event for theme changed, improved error messages</PackageReleaseNotes>
     <PackAsTool>False</PackAsTool>
     <Copyright></Copyright>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <PackageIcon>Icon.jpg</PackageIcon>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Icon.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
