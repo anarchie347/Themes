@@ -118,17 +118,15 @@ namespace Anarchie.Themes
 			object? newValue;
 			dynamic? baseControlEditSetMethod;
 
-
-
 			newValueFunc = themeProperty.GetValue(ctrl);
 			if (newValueFunc == null)
 				return;
 			newValue = newValueFunc.Invoke();
 
-
 			baseControlEditSetMethod = editingProperty.GetValue(null);
-			MessageBox.Show((baseControlEditSetMethod == null).ToString());
-			if (baseControlEditSetMethod == null)
+
+
+            if (baseControlEditSetMethod == null)
 			{
 				throw new Exception($"{editingProperty.Name} was null, so {themeProperty.Name} could not edit any property of the base control for class {ctrlType.Name}");
 			}
