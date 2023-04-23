@@ -12,6 +12,13 @@ using System.Windows.Forms;
 
 namespace Anarchie.Themes
 {
+    /// <summary>
+    /// Handles the ThemeChanged event from a <see cref="ThemeableForm{ThemeType}"/>
+    /// </summary>
+    /// <typeparam name="ThemeType">The implementation of <see cref="Theme"/> used by the form</typeparam>
+    /// <param name="sender">The control invoking the event</param>
+    /// <param name="e">The <see cref="ThemeChangedEventArgs{ThemeType}"/> containing the new and old themes</param>
+    public delegate void ThemeChangedEventHandler<ThemeType>(object sender, ThemeChangedEventArgs<ThemeType> e) where ThemeType : Theme;
 
 	/// <summary>
 	/// Provides a base class for a Form that supports Themes
@@ -53,9 +60,15 @@ namespace Anarchie.Themes
 			{
 				if (currentTheme == value)
 					return;
+				ThemeType oldTheme = currentTheme;
 				currentTheme = value;
 				UpdateThemeables();
-				ThemeChanged?.Invoke(this, EventArgs.Empty);
+				ThemeChangedEventArgs<ThemeType> tcev = new()
+				{
+					OldTheme = oldTheme,
+					NewTheme = value
+				};
+				ThemeChanged?.Invoke(this, tcev);
 			}
 		}
 
