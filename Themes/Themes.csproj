@@ -24,7 +24,7 @@
     <PackAsTool>False</PackAsTool>
     <Copyright></Copyright>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <PackageIcon>Icon.jpg</PackageIcon>
+    <PackageIcon></PackageIcon>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
