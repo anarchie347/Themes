@@ -14,6 +14,20 @@ namespace Anarchie.Themes
     public interface IThemeableControl
     {
         /// <summary>
+        /// Raised when the theme for the parent <see cref="ThemeableForm{ThemeType}"/> changes
+        /// </summary>
+        public event EventHandler ThemeChanged;
+
+
+        /// <summary>
+        /// Called by the parent <see cref="ThemeableForm{ThemeType}"/> when the theme changes
+        /// </summary>
+        /// <typeparam name="ThemeType">The implementation of <see cref="Theme"/> used by the form</typeparam>
+        /// <param name="oldTheme">The old theme</param>
+        /// <param name="newTheme">The new theme</param>
+        public void OnThemeChange<ThemeType>(ThemeType oldTheme, ThemeType newTheme) where ThemeType : Theme;
+
+        /// <summary>
         /// Defines what property should be set by the <see cref="ThemeForeColor"/>
         /// </summary>
         static Action<IThemeableControl, Color>? ThemeForeColorPropertyToEdit { get; }

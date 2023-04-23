@@ -17,11 +17,32 @@ namespace Anarchie.Themes
 	[System.ComponentModel.DesignerCategory("Code")]
 	public class ThemeableButton : Button, IThemeableControl
 	{
+        /// <summary>
+        /// Raised when the theme for the parent <see cref="ThemeableForm{ThemeType}"/> changes
+        /// </summary>
+        public event EventHandler ThemeChanged = delegate { };
 
-		/// <summary>
-		/// Defines what property should be set by the <see cref="ThemeForeColor"/>
-		/// </summary>
-		public static Action<ThemeableButton, Color>? ThemeForeColorPropertyToEdit { get { return (ctrl, value) => ctrl.ForeColor = value; } }
+
+        /// <summary>
+        /// Called by the parent <see cref="ThemeableForm{ThemeType}"/> when the theme changes
+        /// </summary>
+        /// <typeparam name="ThemeType">The implementation of <see cref="Theme"/> used by the form</typeparam>
+        /// <param name="oldTheme">The old theme</param>
+        /// <param name="newTheme">The new theme</param>
+        public void OnThemeChange<ThemeType>(ThemeType oldTheme, ThemeType newTheme) where ThemeType : Theme
+		{
+			ThemeChangedEventArgs<ThemeType> tcev = new()
+			{
+				NewTheme = newTheme,
+				OldTheme = oldTheme
+			};
+			ThemeChanged?.Invoke(this, tcev);
+		}
+
+        /// <summary>
+        /// Defines what property should be set by the <see cref="ThemeForeColor"/>
+        /// </summary>
+        public static Action<ThemeableButton, Color>? ThemeForeColorPropertyToEdit { get { return (ctrl, value) => ctrl.ForeColor = value; } }
 		private Func<Color>? themeForeColor = null;
 		/// <summary>
 		/// The theme color that should be used for the ForeColor property of the <see cref="ThemeableButton"/>
