@@ -63,11 +63,7 @@ namespace Anarchie.Themes
 				ThemeType oldTheme = currentTheme;
 				currentTheme = value;
 				UpdateThemeables();
-				ThemeChangedEventArgs<ThemeType> tcev = new()
-				{
-					OldTheme = oldTheme,
-					NewTheme = value
-				};
+				ThemeChangedEventArgs<ThemeType> tcev = new(oldTheme, value);
 				ThemeChanged?.Invoke(this, tcev);
 			}
 		}

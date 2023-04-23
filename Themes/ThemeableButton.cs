@@ -31,11 +31,7 @@ namespace Anarchie.Themes
         /// <param name="newTheme">The new theme</param>
         public void OnThemeChange<ThemeType>(ThemeType oldTheme, ThemeType newTheme) where ThemeType : Theme
 		{
-			ThemeChangedEventArgs<ThemeType> tcev = new()
-			{
-				NewTheme = newTheme,
-				OldTheme = oldTheme
-			};
+			ThemeChangedEventArgs<ThemeType> tcev = new(oldTheme, newTheme);
 			ThemeChanged?.Invoke(this, tcev);
 		}
 
