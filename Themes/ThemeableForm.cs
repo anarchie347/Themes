@@ -13,6 +13,7 @@ using System.Windows.Forms;
 namespace Anarchie.Themes
 {
 
+
 	/// <summary>
 	/// Provides a base class for a Form that supports Themes
 	/// </summary>
@@ -25,7 +26,7 @@ namespace Anarchie.Themes
 		/// <summary>
 		/// Called when <see cref="CurrentTheme"/> is changed
 		/// </summary>
-		public event EventHandler ThemeChanged;
+		public event ThemeChangedEventHandler ThemeChanged;
 
 		/// <summary>
 		/// Initilialises the form and sets the default <see cref="Theme"/>
@@ -53,9 +54,12 @@ namespace Anarchie.Themes
 			{
 				if (currentTheme == value)
 					return;
+
+                ThemeChangedEventArgs tcev = new(currentTheme, value);
 				currentTheme = value;
-				UpdateThemeables();
-				ThemeChanged?.Invoke(this, EventArgs.Empty);
+                UpdateThemeables(tcev.OldTheme, tcev.NewTheme);	
+				ThemeChanged?.Invoke(this, tcev);
+
 			}
 		}
 
@@ -68,13 +72,13 @@ namespace Anarchie.Themes
 		/// <summary>
 		/// Updates all themeables on a form. Is run automatically when the theme changes
 		/// </summary>
-		public void UpdateThemeables()
+		public void UpdateThemeables(Theme oldTheme, Theme newTheme)
 		{
-			//MAKE THIS WORK FOR ALL IThemeableControl, including ones not created in this assembly
 			List<IThemeableControl> allChildren = GetAllChildControls(this);
 			foreach (IThemeableControl ctrl in allChildren)
 			{
 				UpdateSingleThemeable(ctrl);
+				ctrl.OnThemeChange(oldTheme, newTheme);
 			}
 			base.BackColor = this.currentTheme.FormBackColor;
 			base.BackgroundImage = this.currentTheme.FormBackgroundImage;
@@ -104,7 +108,6 @@ namespace Anarchie.Themes
 			for (int i = 0; i < ctrlThemeProperties.Length; i++) {
                 UpdateSingleProperty(ctrlThemeProperties[i], ctrlEditingProperties[i], ctrl);
 			}
-
 			
 		}
 		private static void UpdateSingleProperty(PropertyInfo themeProperty, PropertyInfo editingProperty, IThemeableControl ctrl)

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -20,15 +20,26 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>C#; .NET; Windows Forms; WinForms; Theme; Themes</PackageTags>
-    <PackageReleaseNotes>Fixed bugs, added event for theme changed, improved error messages</PackageReleaseNotes>
+    <PackageReleaseNotes>Added an event raised by child controls when the theme is changed.
+Changed the ThemeChangeEventArgs to no longer use a generic. It now uses the base theme class. This could make old code incompatible. You will need to type cast the newTheme and oldTheme to your implementation of Theme
+Added an image for the package</PackageReleaseNotes>
     <PackAsTool>False</PackAsTool>
-    <Copyright></Copyright>
+    <Copyright>Copyright (c) 2023 anarchie347</Copyright>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <PackageIcon></PackageIcon>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <PackageIcon>Icon.png</PackageIcon>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <NeutralLanguage>en</NeutralLanguage>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,9 +47,16 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <Content Include="Icon.ico" />
+    <Content Include="Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <None Update="Icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>

@@ -14,6 +14,23 @@ namespace Anarchie.Themes
     public class ThemeableLabel : Label, IThemeableControl
     {
         /// <summary>
+        /// Raised when the theme for the parent <see cref="ThemeableForm{ThemeType}"/> changes
+        /// </summary>
+        public event ThemeChangedEventHandler ThemeChanged = delegate { };
+
+
+        /// <summary>
+        /// Called by the parent <see cref="ThemeableForm{ThemeType}"/> when the theme changes
+        /// </summary>
+        /// <param name="oldTheme">The old theme</param>
+        /// <param name="newTheme">The new theme</param>
+        public void OnThemeChange(Theme oldTheme, Theme newTheme)
+        {
+            ThemeChangedEventArgs tcev = new(oldTheme, newTheme);
+            ThemeChanged?.Invoke(this, tcev);
+        }
+
+        /// <summary>
         /// Defines what property should be set by the <see cref="ThemeForeColor"/>
         /// </summary>
         public static Action<ThemeableLabel, Color>? ThemeForeColorPropertyToEdit { get { return (ctrl, value) => ctrl.ForeColor = value; } }
