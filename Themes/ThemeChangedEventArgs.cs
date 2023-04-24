@@ -10,25 +10,24 @@ namespace Anarchie.Themes
     /// <summary>
     /// Event arguements for a theme change
     /// </summary>
-    /// <typeparam name="ThemeType">The type of theme, inherits from <see cref="Theme"/></typeparam>
-    public class ThemeChangedEventArgs<ThemeType> : EventArgs where ThemeType : Theme
+    public class ThemeChangedEventArgs : EventArgs
     {
         /// <summary>
         /// The <see cref="Theme"/> before the theme changed
         /// </summary>
-        public ThemeType OldTheme { get; init; }
+        public Theme OldTheme { get; init; }
 
         /// <summary>
         /// The <see cref="Theme"/> after the theme changed
         /// </summary>
-        public ThemeType NewTheme { get; init; }
+        public Theme NewTheme { get; init; }
 
         /// <summary>
-        /// Creates a new instance of <see cref="ThemeChangedEventArgs{ThemeType}"/>
+        /// Creates a new instance of <see cref="ThemeChangedEventArgs"/>
         /// </summary>
         /// <param name="oldTheme">The <see cref="Theme"/> before the theme changed</param>
         /// <param name="newTheme">The <see cref="Theme"/> after the theme changed</param>
-        public ThemeChangedEventArgs(ThemeType oldTheme, ThemeType newTheme)
+        public ThemeChangedEventArgs(Theme oldTheme, Theme newTheme)
         {
             OldTheme = oldTheme;
             NewTheme = newTheme;

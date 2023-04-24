@@ -12,13 +12,12 @@ using System.Windows.Forms;
 
 namespace Anarchie.Themes
 {
-    /// <summary>
-    /// Handles the ThemeChanged event from a <see cref="ThemeableForm{ThemeType}"/>
-    /// </summary>
-    /// <typeparam name="ThemeType">The implementation of <see cref="Theme"/> used by the form</typeparam>
-    /// <param name="sender">The control invoking the event</param>
-    /// <param name="e">The <see cref="ThemeChangedEventArgs{ThemeType}"/> containing the new and old themes</param>
-    public delegate void ThemeChangedEventHandler<ThemeType>(object sender, ThemeChangedEventArgs<ThemeType> e) where ThemeType : Theme;
+	/// <summary>
+	/// Handles the ThemeChanged event from a <see cref="ThemeableForm{ThemeType}"/>
+	/// </summary>
+	/// <param name="sender">The control invoking the event</param>
+	/// <param name="e">The <see cref="ThemeChangedEventArgs"/> containing the new and old themes</param>
+	public delegate void ThemeChangedEventHandler(object sender, ThemeChangedEventArgs e);
 
 	/// <summary>
 	/// Provides a base class for a Form that supports Themes
@@ -61,7 +60,7 @@ namespace Anarchie.Themes
 				if (currentTheme == value)
 					return;
 
-                ThemeChangedEventArgs<ThemeType> tcev = new(currentTheme, value);
+                ThemeChangedEventArgs tcev = new(currentTheme, value);
 				currentTheme = value;
                 UpdateThemeables(tcev.OldTheme, tcev.NewTheme);	
 				ThemeChanged?.Invoke(this, tcev);
@@ -78,7 +77,7 @@ namespace Anarchie.Themes
 		/// <summary>
 		/// Updates all themeables on a form. Is run automatically when the theme changes
 		/// </summary>
-		public void UpdateThemeables(ThemeType oldTheme, ThemeType newTheme)
+		public void UpdateThemeables(Theme oldTheme, Theme newTheme)
 		{
 			List<IThemeableControl> allChildren = GetAllChildControls(this);
 			foreach (IThemeableControl ctrl in allChildren)

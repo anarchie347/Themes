@@ -22,12 +22,11 @@ namespace Anarchie.Themes
         /// <summary>
         /// Called by the parent <see cref="ThemeableForm{ThemeType}"/> when the theme changes
         /// </summary>
-        /// <typeparam name="ThemeType">The implementation of <see cref="Theme"/> used by the form</typeparam>
         /// <param name="oldTheme">The old theme</param>
         /// <param name="newTheme">The new theme</param>
-        public void OnThemeChange<ThemeType>(ThemeType oldTheme, ThemeType newTheme) where ThemeType : Theme
+        public void OnThemeChange(Theme oldTheme, Theme newTheme)
         {
-            ThemeChangedEventArgs<ThemeType> tcev = new(oldTheme, newTheme);
+            ThemeChangedEventArgs tcev = new(oldTheme, newTheme);
             ThemeChanged?.Invoke(this, tcev);
         }
 
