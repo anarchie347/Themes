@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 namespace Anarchie.Themes
 {
     /// <summary>
+    /// Handles the ThemeChanged event from a <see cref="ThemeableForm{ThemeType}"/>
+    /// </summary>
+    /// <param name="sender">The control invoking the event</param>
+    /// <param name="e">The <see cref="ThemeChangedEventArgs"/> containing the new and old themes</param>
+    public delegate void ThemeChangedEventHandler(object sender, ThemeChangedEventArgs e);
+
+    /// <summary>
     /// Event arguements for a theme change
     /// </summary>
     public class ThemeChangedEventArgs : EventArgs
