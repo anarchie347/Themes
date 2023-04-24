@@ -60,11 +60,12 @@ namespace Anarchie.Themes
 			{
 				if (currentTheme == value)
 					return;
-				ThemeType oldTheme = currentTheme;
+
+                ThemeChangedEventArgs<ThemeType> tcev = new(currentTheme, value);
 				currentTheme = value;
-				UpdateThemeables();
-				ThemeChangedEventArgs<ThemeType> tcev = new(oldTheme, value);
+                UpdateThemeables(tcev.OldTheme, tcev.NewTheme);	
 				ThemeChanged?.Invoke(this, tcev);
+
 			}
 		}
 
@@ -77,13 +78,13 @@ namespace Anarchie.Themes
 		/// <summary>
 		/// Updates all themeables on a form. Is run automatically when the theme changes
 		/// </summary>
-		public void UpdateThemeables()
+		public void UpdateThemeables(ThemeType oldTheme, ThemeType newTheme)
 		{
-			//MAKE THIS WORK FOR ALL IThemeableControl, including ones not created in this assembly
 			List<IThemeableControl> allChildren = GetAllChildControls(this);
 			foreach (IThemeableControl ctrl in allChildren)
 			{
 				UpdateSingleThemeable(ctrl);
+				ctrl.OnThemeChange(oldTheme, newTheme);
 			}
 			base.BackColor = this.currentTheme.FormBackColor;
 			base.BackgroundImage = this.currentTheme.FormBackgroundImage;
@@ -113,7 +114,6 @@ namespace Anarchie.Themes
 			for (int i = 0; i < ctrlThemeProperties.Length; i++) {
                 UpdateSingleProperty(ctrlThemeProperties[i], ctrlEditingProperties[i], ctrl);
 			}
-
 			
 		}
 		private static void UpdateSingleProperty(PropertyInfo themeProperty, PropertyInfo editingProperty, IThemeableControl ctrl)
