@@ -16,7 +16,7 @@ namespace Anarchie.Themes
         /// <summary>
         /// Raised when the theme for the parent <see cref="ThemeableForm{ThemeType}"/> changes
         /// </summary>
-        public event EventHandler ThemeChanged = delegate { };
+        public event ThemeChangedEventHandler ThemeChanged = delegate { };
 
 
         /// <summary>

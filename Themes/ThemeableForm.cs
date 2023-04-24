@@ -31,7 +31,7 @@ namespace Anarchie.Themes
 		/// <summary>
 		/// Called when <see cref="CurrentTheme"/> is changed
 		/// </summary>
-		public event EventHandler ThemeChanged;
+		public event ThemeChangedEventHandler ThemeChanged;
 
 		/// <summary>
 		/// Initilialises the form and sets the default <see cref="Theme"/>
