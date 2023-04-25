@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <VersionPrefix>2.0.2</VersionPrefix>
+    <VersionPrefix>2.0.3</VersionPrefix>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -20,13 +20,15 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>C#; .NET; Windows Forms; WinForms; Theme; Themes</PackageTags>
-    <PackageReleaseNotes>Fixed a bug with inherited implementations of themeable controls</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed a bug with inherited implementations of themeable controls (it was not actually fixed in v2.0.2
+Reformatted and improved readme
+Fixed a bug that would cause an unhandled crash if the control property could not edited</PackageReleaseNotes>
     <PackAsTool>False</PackAsTool>
     <Copyright>Copyright (c) 2023 anarchie347</Copyright>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
     <PackageIcon>Icon.png</PackageIcon>
-    <AssemblyVersion>2.0.2.0</AssemblyVersion>
-    <FileVersion>2.0.2.0</FileVersion>
+    <AssemblyVersion>2.0.3.0</AssemblyVersion>
+    <FileVersion>2.0.3.0</FileVersion>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <NeutralLanguage>en</NeutralLanguage>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
