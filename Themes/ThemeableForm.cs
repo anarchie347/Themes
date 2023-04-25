@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -138,9 +139,9 @@ namespace Anarchie.Themes
 				baseControlEditSetMethod.DynamicInvoke(ctrl, newValue);
 			} catch
 			{
-				throw new Exception($"Could not set {baseControlEditSetMethod.Name} to the the value returned by {newValueFunc.Name} because it returned {newValue.GetType()}");
+				string requiredType = editingProperty.PropertyType.GenericTypeArguments[1].ToString();
+				throw new Exception($"Could not set the property referenced by {editingProperty.Name} to the value returned by {themeProperty.Name} because it returned {newValue.GetType()}, when a {requiredType} was needed");
 			}
-
 		}
 
 		private static void ValidateTypesOfThemeableProperties(PropertyInfo themeProperty, PropertyInfo editingProperty, IThemeableControl ctrl)
@@ -172,11 +173,11 @@ namespace Anarchie.Themes
 			if (themePropertyReturnType != editingPropertyValueType)
 				throw new Exception($"{themeProperty.Name} in class {ctrlType.Name} returns type {themePropertyReturnType.Name}, but {editingProperty.Name} accepts a value of type {editingPropertyValueType.Name}");
 
-			if (editingPropertyThemeableType != ctrlType)
-				throw new Exception($"The first generic arguement for {editingProperty.Name} was {editingPropertyThemeableType.Name} which did not correspond to the type of the class which was {ctrlType.Name}");
+            
 
-			if (editingPropertyThemeableType is not IThemeableControl)
-                throw new Exception($"The first generic arguement for {editingProperty.Name} was {editingPropertyThemeableType.Name} which did not correspond to the type of the class which was {ctrlType.Name}");
+            if (!editingPropertyThemeableType.IsAssignableFrom(editingProperty.DeclaringType))
+				throw new Exception($"The first generic arguement for {editingProperty.Name} was {editingPropertyThemeableType}, which was not further up the inheritance tree from {editingProperty.DeclaringType}");
+                
         }
 
 		private List<IThemeableControl> GetAllChildControls(Control control)
