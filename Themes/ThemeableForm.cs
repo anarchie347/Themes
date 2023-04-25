@@ -155,10 +155,10 @@ namespace Anarchie.Themes
             if (!(editingPropertyType.IsGenericType && (editingPropertyType.GetGenericTypeDefinition() == typeof(Action<,>) || editingPropertyType.IsSubclassOf(typeof(Action<,>)))))
                 throw new Exception($"{editingProperty.Name} in class {ctrlType.Name} was of type {editingPropertyType.Name}, when it should have been an implementation of Action`2");
 
-            if (!(themePropertyType.GetGenericArguments().Length == 1))
+            if (themePropertyType.GetGenericArguments().Length != 1)
 				throw new Exception($"{themeProperty.Name} in class {ctrlType.Name} had {themePropertyType.GetGenericArguments().Length} generic arguements. It should have had 1");
 
-            if (!(editingPropertyType.GetGenericArguments().Length == 2))
+            if (editingPropertyType.GetGenericArguments().Length != 2)
                 throw new Exception($"{editingProperty.Name} in class {ctrlType.Name} had {editingPropertyType.GetGenericArguments().Length} generic arguements. It should have had 2");
 
             //types required and provided by the theme and editing properties
@@ -172,10 +172,12 @@ namespace Anarchie.Themes
 			if (themePropertyReturnType != editingPropertyValueType)
 				throw new Exception($"{themeProperty.Name} in class {ctrlType.Name} returns type {themePropertyReturnType.Name}, but {editingProperty.Name} accepts a value of type {editingPropertyValueType.Name}");
 
-			if (!(editingPropertyThemeableType == ctrlType))
+			if (editingPropertyThemeableType != ctrlType)
 				throw new Exception($"The first generic arguement for {editingProperty.Name} was {editingPropertyThemeableType.Name} which did not correspond to the type of the class which was {ctrlType.Name}");
 
-		}
+			if (editingPropertyThemeableType is not IThemeableControl)
+                throw new Exception($"The first generic arguement for {editingProperty.Name} was {editingPropertyThemeableType.Name} which did not correspond to the type of the class which was {ctrlType.Name}");
+        }
 
 		private List<IThemeableControl> GetAllChildControls(Control control)
 		{
