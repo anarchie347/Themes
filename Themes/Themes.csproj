@@ -20,7 +20,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageTags>C#; .NET; Windows Forms; WinForms; Theme; Themes</PackageTags>
-    <PackageReleaseNotes>Fixed a bug with inherited implementations of themeable controls (it was not actually fixed in v2.0.2
+    <PackageReleaseNotes>Fixed a bug with inherited implementations of themeable controls (it was not actually fixed in v2.0.2)
 Reformatted and improved readme
 Fixed a bug that would cause an unhandled crash if the control property could not edited</PackageReleaseNotes>
     <PackAsTool>False</PackAsTool>
