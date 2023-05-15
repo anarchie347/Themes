@@ -14,17 +14,17 @@ Usage: [Github wiki](https://github.com/anarchie347/Themes/wiki)
 
 ## Getting started:
 Replace 
-```
+```csharp
 internal partial class Form1 : Form
 ```
 With
-```
+```csharp
 internal partial class Form1 : ThemeableForm<Theme>
 ```
 `Theme` is the implementation of the `Theme` class used for this form. If you want to define your own schema for a theme, put that class inside the `<>`. You can see how to create a new schema [here](https://github.com/anarchie347/Themes/wiki/Defining-a-Theme-schema)
 
 
-```
+```csharp
 ThemeableButton myButton = new();
 myButton.ThemeBackColor = () => CurrentTheme.PrimaryColor;
 myButton.ThemeForeColor = () => CurrentTheme.SecondaryColor;
